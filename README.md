@@ -26,6 +26,11 @@
   （`bots.qq.com/app/getAppAccessToken` 取 token → `api.sgroup.qq.com/gateway` 建 WS 长连接收事件 →
   `/v2/users/{openid}/messages` 或 `/v2/groups/{group_openid}/messages` 发消息）。
 
+## 手把手讲解（怎么弄）
+
+想从零复现整套链路（跑通 mock → 装插件 → Agent 说话 → 接真实 QQ → 校验 → 发版 → 每日自动化），
+见 **[docs/tutorial.md](docs/tutorial.md)**：每步都给出现实命令与预期输出，并附常见问题表。
+
 ## 快速开始
 
 ### 1. 跑桥接服务（mock）
