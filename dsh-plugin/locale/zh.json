@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "QQ Bot 桥接",
+    "description": "让 Agent 连接 QQ 机器人：状态查询、消息发送、消息轮询与测试钩子。"
+  }
+}

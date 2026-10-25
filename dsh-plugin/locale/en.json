@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "QQ Bot Bridge",
+    "description": "Connects the agent to a QQ bot: status, send, poll, and test hooks over a local bridge."
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "dsh-qqbot",
+  "version": "1.0.0",
+  "description": "Connect a DeepSeek Harness agent to a QQ bot: DSH plugin + zero-dependency bridge + 12-round verification harness.",
+  "private": false,
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/USER/dsh-qqbot.git"
+  },
+  "scripts": {
+    "bridge": "node bridge/qqbot-bridge.mjs --mock --port 8790",
+    "verify": "node test/verify.mjs --rounds 12",
+    "test": "node test/verify.mjs --rounds 12"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "qq",
+    "qqbot",
+    "deepseek-harness",
+    "dsh",
+    "cordis",
+    "plugin",
+    "bridge"
+  ]
+}

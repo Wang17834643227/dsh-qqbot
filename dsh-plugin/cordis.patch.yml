@@ -1,0 +1,9 @@
+- insert:
+    - id: qqbot-bridge
+      name: '@local/dsh-qqbot-bridge'
+      config:
+        # "mock" = in-process simulated QQ bot bridge (default, fully offline-testable)
+        # "bridge" = external HTTP bridge (e.g. bridge/mock-bridge.mjs or a real QQ bot adapter)
+        backend: mock
+        bridgeUrl: http://127.0.0.1:8790
+        timeoutMs: 15000
