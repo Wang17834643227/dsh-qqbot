@@ -17,7 +17,13 @@
  * Results: test/verification_results.json + test/verification.log
  * Exit 0 only when all 12 rounds pass.
  *
- * Usage: node test/verify.mjs [--rounds 12] [--port 8790] [--plugin-base http://127.0.0.1:63900]
+ * Usage: node test/verify.mjs [--rounds 12] [--port 8790] [--plugin-base <url>]
+ *
+ * The plugin HTTP-route probe is OPT-IN: pass --plugin-base <DSH web base URL>
+ * (e.g. --plugin-base http://127.0.0.1:56160) to also exercise the installed
+ * DSH plugin routes. The DSH web server port changes across sessions, so it
+ * is not probed by default (a stale default port would report false failures).
+ * Use --no-plugin to explicitly disable a probe that was enabled by --plugin-base.
  */
 
 import { spawn } from "node:child_process";
@@ -29,12 +35,12 @@ const here = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(here, "..");
 
 function parseArgs(argv) {
-  const out = { rounds: 12, port: 8790, pluginBase: "http://127.0.0.1:63900", usePlugin: true };
+  const out = { rounds: 12, port: 8790, pluginBase: "http://127.0.0.1:63900", usePlugin: false };
   for (let i = 2; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--rounds") out.rounds = Number(argv[++i]);
     else if (a === "--port") out.port = Number(argv[++i]);
-    else if (a === "--plugin-base") out.pluginBase = argv[++i];
+    else if (a === "--plugin-base") { out.pluginBase = argv[++i]; out.usePlugin = true; }
     else if (a === "--no-plugin") out.usePlugin = false;
   }
   return out;
