@@ -1,6 +1,6 @@
 {
   "name": "dsh-qqbot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Connect a DeepSeek Harness agent to a QQ bot: DSH plugin + zero-dependency bridge + 12-round verification harness.",
   "private": false,
   "type": "module",

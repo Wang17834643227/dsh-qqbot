@@ -78,11 +78,11 @@ warnings: []
 Tool listTools  →  能看到 qqbot_status / qqbot_send / qqbot_poll / qqbot_inbound
 ```
 
-再验证插件 HTTP 路由（DSH Web 服务器 63900）：
+再验证插件 HTTP 路由（端口 = 当前 DSH Web GUI 的端口，**随会话动态变化**，如 63900 / 56160 / 58545；用你当前会话 GUI URL 里的端口替换 `<PORT>`）：
 
 ```
-curl http://127.0.0.1:63900/plugins/dsh-qqbot-bridge/bridge/health
-# → {"ok":true,"version":"1.0.0"}
+curl http://127.0.0.1:<PORT>/plugins/dsh-qqbot-bridge/bridge/health
+# → {"ok":true,"version":"..."}
 ```
 
 **插件怎么工作的**（给想读源码的人）：`dsh-plugin/index.js` 里 `apply(ctx, config)` 同步返回两个延迟任务——一个把 4 个工具注册进 `ctx.get("tools")`，一个把 5 条路由注册进 `ctx.get("webServer")`。工具的执行体都是 fetch 桥接 HTTP 端点（`backend: "bridge"`）或进程内模拟（`backend: "mock"`，即 `cordis.patch.yml` 里的默认配置）。
@@ -135,8 +135,8 @@ real 模式内部做的事（`bridge/qqbot-bridge.mjs` 源码里都有）：
 
 ```powershell
 node test\verify.mjs --rounds 12
-# 可选：同时探测已安装插件的 HTTP 路由
-node test\verify.mjs --rounds 12 --plugin-base http://127.0.0.1:63900
+# 可选：同时探测已安装插件的 HTTP 路由（<PORT> 换成当前 DSH Web GUI 端口，随会话变化）
+node test\verify.mjs --rounds 12 --plugin-base http://127.0.0.1:<PORT>
 ```
 
 它做的事：起一个独立的 mock 桥接（随机端口）→ 每轮跑 7 项检查

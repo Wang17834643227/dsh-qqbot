@@ -25,8 +25,14 @@
 
 import http from "node:http";
 import crypto from "node:crypto";
+import { readFileSync } from "node:fs";
 
-const VERSION = "1.0.0";
+// Read the release version from the root package.json (script-relative) so the
+// bridge always reports the real version; fall back to a constant if unreadable.
+let VERSION = "1.0.3";
+try {
+  VERSION = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")).version ?? VERSION;
+} catch { /* keep fallback */ }
 const now = () => Date.now();
 
 // ---------------------------------------------------------------------------
@@ -269,7 +275,6 @@ function createRealBackend(args, store) {
     async close() {
       if (heartbeatTimer) clearInterval(heartbeatTimer);
       try { state.ws?.close(); } catch { /* ignore */ }
-      startHeartback();
     },
     start: async () => {
       await getToken();
@@ -277,8 +282,6 @@ function createRealBackend(args, store) {
       startHeartbeat();
     },
   };
-
-  function startHeartback() {}
 }
 
 // ---------------------------------------------------------------------------
