@@ -22,6 +22,15 @@
  * host where plain Node built-ins and global fetch exist.
  */
 
+import { readFileSync } from "node:fs";
+
+// Read the bundle version from this directory's package.json so /health and
+// mock status always report the real version; fall back to a constant.
+let VERSION = "1.0.4";
+try {
+  VERSION = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8")).version ?? VERSION;
+} catch { /* keep fallback */ }
+
 // ---------------------------------------------------------------------------
 // In-process mock backend (same protocol as bridge/qqbot-bridge.mjs)
 // ---------------------------------------------------------------------------
@@ -52,7 +61,7 @@ function createMockBackend() {
       autoReply,
       seq,
       uptimeMs: Date.now() - startedAt,
-      version: "1.0.0",
+      version: VERSION,
     }),
     send: ({ to, message, kind }) => {
       const target = normalizeTarget(to);
@@ -223,7 +232,7 @@ function httpHandlersFor(bridge) {
   };
   return {
     "/plugins/dsh-qqbot-bridge/bridge/health": async (_req, res) => {
-      jsonOut(res, 200, { ok: true, version: "1.0.0" });
+      jsonOut(res, 200, { ok: true, version: VERSION });
     },
     "/plugins/dsh-qqbot-bridge/bridge/status": async (_req, res) => {
       try { jsonOut(res, 200, await bridge.status()); } catch (e) { jsonOut(res, 502, { ok: false, error: String(e.message) }); }

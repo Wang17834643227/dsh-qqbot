@@ -1,6 +1,6 @@
 {
   "name": "@local/dsh-qqbot-bridge",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "type": "module",
   "description": "DeepSeek Harness plugin: QQ Bot bridge tools (status, send, poll, inbound) for agent-QQ connectivity.",
